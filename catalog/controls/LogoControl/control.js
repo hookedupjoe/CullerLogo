@@ -149,11 +149,22 @@
     
     var tmpEQMic = ThisApp.common.eqDataMic;
     var tmpLED;
+    var tmpMinAmt = .10
+
+
 
     var tmpVoiceTest = getTot([tmpEQMic.lowMid,tmpEQMic.highMid]);
     if( this.reactionSpeakInfo.lastAmt == tmpVoiceTest ){
       return;
     }
+    
+    
+    
+    // tmpVoiceTest = tmpVoiceTest * 100;
+    // if( tmpVoiceTest < 15){
+    //   console.log('tmpVoiceTest no',tmpVoiceTest);  
+    //   return;
+    // }
 
     var tmpAmt = (bandVal(13) + bandVal(14) + bandVal(15) + bandVal(16) + bandVal(17) + bandVal(18) + bandVal(19));
     // tmpAmt /= 7;
@@ -172,8 +183,20 @@
     // console.log('bandVal(13)',bandVal(13));
     // console.log('tmpEQMic.highMid',tmpEQMic.mid);
     
+
+
+    if( tmpAmt < 2 ){
+      return;
+    }
+    var tmpScaleAmt = 1 + ((tmpAmt - 2) / 10);
+console.log('tmpScaleAmt',tmpScaleAmt);
+    
     this.reactionSpeakInfo.lastAmt = tmpVoiceTest;
-    var tmpScale = 1 + tmpEQMic.mid;
+    
+    var tmpScale = tmpScaleAmt; //1 + (tmpEQMic.mid);
+    
+    console.log('tmpEQMic.mid',tmpEQMic.mid);  
+    
     var tmpPart = this.partsBin.part_sun;
     if( !this.partsBin.part_sun.visible ){
       tmpPart = this.partsBin.part_outline;
